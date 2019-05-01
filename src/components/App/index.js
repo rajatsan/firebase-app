@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -14,35 +14,26 @@ import AccountPage from '../Account';
 import AdminPage from '../Admin';
 
 import * as ROUTES from '../../constants/routes';
+import { withAuthentication } from '../Session';
+import Signout from '../SignOut';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+const App = () => (
+  <Router>
+    <div>
+      <Navigation />
 
-    this.state = {
-      authUser: null,
-    };
-  }
+      <hr />
 
-  render() {
-    return (
-      <Router>
-        <div>
-          <Navigation authUser={this.state.authUser}/>
+      <Route exact path={ROUTES.LANDING} component={LandingPage} />
+      <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+      <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+      <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+      <Route path={ROUTES.HOME} component={HomePage} />
+      <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+      <Route path={ROUTES.ADMIN} component={AdminPage} />
+      <Route path={ROUTES.SIGN_OUT} component={Signout} />
+    </div>
+  </Router>
+)
 
-          <hr />
-
-          <Route exact path={ROUTES.LANDING} component={LandingPage} />
-          <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-          <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-          <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-          <Route path={ROUTES.HOME} component={HomePage} />
-          <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-          <Route path={ROUTES.ADMIN} component={AdminPage} />
-        </div>
-      </Router>
-    )
-  }
-}
-
-export default App;
+export default withAuthentication(App);

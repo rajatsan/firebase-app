@@ -16,13 +16,20 @@ class Firebase {
         console.log('error');
       });
       
-      
-
     this.auth = app.auth();
-
-    
-    
   }
+
+  getInvitedMembers = () => {
+    return app.firestore().collection("approved_users").get().then((querySnapshot) => {
+      return querySnapshot.docs;
+    });
+  }
+
+  signOut = () => {
+    this.auth.signOut();
+  }
+
+  onAuthStateChanged = callback => {console.log('called'); this.auth.onAuthStateChanged(callback); }
 
   doCreateUserWithPhoneNumber = (phoneNumber) => {
     console.log('this', phoneNumber)
@@ -69,7 +76,6 @@ class Firebase {
   }
 
   getApprovedUsers = () => {
-    console.log('called get')
     app.firestore().collection("users").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
           console.log(`${doc.id} => ${doc.data()}`);
@@ -93,7 +99,6 @@ class Firebase {
   
   }
 
-  doSignOut = () => this.auth.signOut();
 }
 
 export default Firebase;

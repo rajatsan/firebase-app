@@ -2,12 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
+import { withAuthentication } from '../Session';
 
-const Navigation = ({ authUser }) => (
-  <div>{authUser ? <NavigationAuth /> : <NavigationNonAuth />}</div>
-);
 
-const NavigationAuth = () => {
+const Navigation = ({authUser}) => {
+  return (
+    <div>
+      { authUser ? <NavigationAuth /> : <NavigationNonAuth /> }
+    </div>
+  )
+};
+
+const NavigationAuth = () => (
   <ul>
     <li>
       <Link to={ROUTES.LANDING}>Landing</Link>
@@ -21,8 +27,11 @@ const NavigationAuth = () => {
     <li>
       <Link to={ROUTES.ADMIN}>Admin</Link>
     </li>
+    <li>
+      <Link to={ROUTES.SIGN_OUT}>Sign out</Link>
+    </li>
   </ul>  
-}
+)
 
 const NavigationNonAuth = () => (
   <ul>
@@ -38,4 +47,4 @@ const NavigationNonAuth = () => (
   </ul>  
 );
 
-export default Navigation;
+export default withAuthentication(Navigation);
